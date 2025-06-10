@@ -7,7 +7,7 @@ import "./Product.css";
 import "./FilterSlider.css";
 
 const PRODUCTS_PER_PAGE = 12;
-const API_URL = "http://localhost:8080/shopify/products";
+const API_URL = "http://localhost:8080/shopify/customFilter";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -15,6 +15,11 @@ export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState([]);
+  const [filteredValues, setFilteredValues] = useState([]);
+
+  console.log("formattedFilters");
+  console.log(filteredValues);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,7 +31,8 @@ export default function Products() {
         const res = await fetch(`${API_URL}?${queryParams}`);
         const data = await res.json();
 
-        setProducts(data.products);
+        setProducts(data.products.products);
+        setFilters(data.filters);
 
         if (data.nextPageCursor && !pageInfoMap[currentPage + 1]) {
           setPageInfoMap((prev) => ({
@@ -44,64 +50,76 @@ export default function Products() {
   }, [currentPage]);
 
   return (
-    <div className="products-wrapper">
-      <div className="plp-header">
-        <h1 className="page-title">Products</h1>
-        <button className="filter-button" onClick={() => setShowFilters(true)}>
-          Filter
-        </button>
-      </div>
-
-      {/* Filter Panel */}
-      <div className={`filter-slider ${showFilters ? "open" : ""}`}>
-        <div className="filter-slider-header">
-          <h2>Filters</h2>
+    <>
+      {/* {filteredValues ? filteredValues.join(", ") : ""} */}
+      <div className="products-wrapper">
+        <div className="plp-header">
+          <h1 className="page-title">Products</h1>
           <button
-            className="close-button"
-            onClick={() => setShowFilters(false)}
+            className="filter-button"
+            onClick={() => setShowFilters(true)}
           >
-            <FiX />
+            Filter
           </button>
         </div>
-        <ProductFilters />
-      </div>
 
-      <div className="product-grid">
-        {products?.length > 0 ? (
-          products.map((product) => {
-            const imageSrc = product.featuredImage?.url;
-            const price = parseFloat(product.priceRange.minVariantPrice.amount);
+        {/* Filter Panel */}
+        <div className={`filter-slider ${showFilters ? "open" : ""}`}>
+          <div className="filter-slider-header">
+            <h2>Filters</h2>
+            <button
+              className="close-button"
+              onClick={() => setShowFilters(false)}
+            >
+              <FiX />
+            </button>
+          </div>
+          <ProductFilters
+            filters={filters}
+            setFilteredValues={setFilteredValues}
+            filteredValues={filteredValues}
+          />
+        </div>
 
-            return (
-              <div key={product.id} className="product-card">
-                {imageSrc && (
-                  <img
-                    src={imageSrc}
-                    alt={product.title}
-                    className="product-image"
-                  />
-                )}
-                <div className="product-info">
-                  <p className="product-title">{product.title}</p>
-                  <p className="product-price">${price.toFixed(2)}</p>
+        <div className="product-grid">
+          {products?.length > 0 ? (
+            products.map((product) => {
+              const imageSrc = product.featuredImage?.url;
+              const price = parseFloat(
+                product.priceRange.minVariantPrice.amount
+              );
+
+              return (
+                <div key={product.id} className="product-card">
+                  {imageSrc && (
+                    <img
+                      src={imageSrc}
+                      alt={product.title}
+                      className="product-image"
+                    />
+                  )}
+                  <div className="product-info">
+                    <p className="product-title">{product.title}</p>
+                    <p className="product-price">${price.toFixed(2)}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        ) : (
-          <p>No products found or failed to fetch.</p>
-        )}
-      </div>
+              );
+            })
+          ) : (
+            <p>No products found or failed to fetch.</p>
+          )}
+        </div>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page) => {
-          if (page > 0 && page <= totalPages) {
-            setCurrentPage(page);
-          }
-        }}
-      />
-    </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => {
+            if (page > 0 && page <= totalPages) {
+              setCurrentPage(page);
+            }
+          }}
+        />
+      </div>
+    </>
   );
 }
