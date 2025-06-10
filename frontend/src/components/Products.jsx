@@ -18,26 +18,31 @@ export default function Products() {
   const [filters, setFilters] = useState([]);
   const [filteredValues, setFilteredValues] = useState([]);
 
-  console.log("formattedFilters");
-  console.log(filteredValues);
-
   useEffect(() => {
     const fetchProducts = async () => {
-      const queryParams = new URLSearchParams({ limit: PRODUCTS_PER_PAGE });
       const pageInfo = pageInfoMap[currentPage];
-      if (pageInfo) queryParams.append("after", pageInfo);
 
       try {
-        const res = await fetch(`${API_URL}?${queryParams}`);
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            limit: PRODUCTS_PER_PAGE,
+            after: pageInfo || null,
+            filters: filteredValues,
+          }),
+        });
+
         const data = await res.json();
+        console.log(data);
 
         setProducts(data.products.products);
         setFilters(data.filters);
 
-        if (data.nextPageCursor && !pageInfoMap[currentPage + 1]) {
+        if (data.products.nextPageCursor && !pageInfoMap[currentPage + 1]) {
           setPageInfoMap((prev) => ({
             ...prev,
-            [currentPage + 1]: data.nextPageCursor,
+            [currentPage + 1]: data.products.nextPageCursor,
           }));
           setTotalPages((prev) => Math.max(prev, currentPage + 1));
         }
@@ -47,11 +52,10 @@ export default function Products() {
     };
 
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, filteredValues]);
 
   return (
     <>
-      {/* {filteredValues ? filteredValues.join(", ") : ""} */}
       <div className="products-wrapper">
         <div className="plp-header">
           <h1 className="page-title">Products</h1>

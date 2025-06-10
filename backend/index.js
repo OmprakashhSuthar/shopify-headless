@@ -7,6 +7,7 @@ const customProductFilters = require('./src/customProductFilters')
 require('dotenv').config();
 
 app.use(cors());
+app.use(express.json());
 app.use('/shopify', Products)
 app.use('/shopify', Productfilters);
 app.use('/shopify', customProductFilters)
