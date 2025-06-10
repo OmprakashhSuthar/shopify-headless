@@ -19,6 +19,12 @@ export default function Products() {
   const [filteredValues, setFilteredValues] = useState([]);
 
   useEffect(() => {
+    setPageInfoMap({ 1: null });
+    setCurrentPage(1);
+    setTotalPages(1);
+  }, [filteredValues]);
+
+  useEffect(() => {
     const fetchProducts = async () => {
       const pageInfo = pageInfoMap[currentPage];
 
@@ -34,10 +40,11 @@ export default function Products() {
         });
 
         const data = await res.json();
-        console.log(data);
-
         setProducts(data.products.products);
-        setFilters(data.filters);
+
+        if (currentPage === 1) {
+          setFilters(data.filters);
+        }
 
         if (data.products.nextPageCursor && !pageInfoMap[currentPage + 1]) {
           setPageInfoMap((prev) => ({
@@ -51,8 +58,10 @@ export default function Products() {
       }
     };
 
-    fetchProducts();
-  }, [currentPage, filteredValues]);
+    if (pageInfoMap.hasOwnProperty(currentPage)) {
+      fetchProducts();
+    }
+  }, [currentPage, pageInfoMap, filteredValues]);
 
   return (
     <>

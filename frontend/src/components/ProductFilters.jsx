@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiPlus, FiMinus } from "react-icons/fi";
+import { FiPlus, FiMinus, FiX } from "react-icons/fi";
 import "./ProductFilters.css";
 
 export default function ProductFilters({
@@ -24,6 +24,12 @@ export default function ProductFilters({
       return newValues;
     });
   }
+  console.log("filteredValues");
+  console.log(filteredValues);
+
+  function handleClearFilters() {
+    setFilteredValues({});
+  }
 
   const toggleSection = (key) => {
     setExpanded((prev) => ({
@@ -37,11 +43,15 @@ export default function ProductFilters({
 
   return (
     <>
-      {Object.entries(filteredValues).map(([filterType, values]) => (
-        <div key={filterType}>
-          {filterType}: {values.join(", ")}
+      {Object.values(filteredValues).some((arr) => arr.length > 0) ? (
+        <div className="filterOptions">
+          <FiX className="FiX" onClick={handleClearFilters} />
+          {Object.entries(filteredValues).map(([filterType, values]) => (
+            <p key={filterType}>{values.join(", ")}</p>
+          ))}
         </div>
-      ))}
+      ) : null}
+
       <div className="filters-container">
         <h2 className="filters-title">Filters</h2>
         {Object.entries(filters).map(([key, filter]) => (
