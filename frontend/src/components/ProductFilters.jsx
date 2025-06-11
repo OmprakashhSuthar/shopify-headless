@@ -24,8 +24,6 @@ export default function ProductFilters({
       return newValues;
     });
   }
-  console.log("filteredValues");
-  console.log(filteredValues);
 
   function handleClearFilters() {
     setFilteredValues({});

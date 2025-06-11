@@ -1,0 +1,36 @@
+.flyout-menu {
+  display: flex;
+  gap: 32px;
+  padding: 32px;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 900px;
+  height: 100%;
+  z-index: 99;
+}
+
+.flyout-columns {
+  display: flex;
+  gap: 32px;
+  flex: 2;
+  justify-content: space-around;
+}
+
+.flyout-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flyout-heading {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.flyout-link {
+  text-decoration: none;
+  color: #333;
+  margin: 4px 0;
+  padding: 8px 0;
+}
