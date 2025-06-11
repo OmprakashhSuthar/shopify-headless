@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import Pagination from "./Pagination";
 import { FiX } from "react-icons/fi";
-import ProductFilters from "./ProductFilters";
+import Pagination from "../components/Pagination";
+import ProductFilters from "../components/ProductFilters";
+import ProductTiles from "../components/ProductTiles";
 import "./Product.css";
-import "./FilterSlider.css";
 
 const PRODUCTS_PER_PAGE = 12;
 const API_URL = "http://localhost:8080/shopify/customFilter";
@@ -95,31 +95,12 @@ export default function Products() {
         </div>
 
         <div className="product-grid">
-          {products?.length > 0 ? (
-            products.map((product) => {
-              const imageSrc = product.featuredImage?.url;
-              const price = parseFloat(
-                product.priceRange.minVariantPrice.amount
-              );
-
-              return (
-                <div key={product.id} className="product-card">
-                  {imageSrc && (
-                    <img
-                      src={imageSrc}
-                      alt={product.title}
-                      className="product-image"
-                    />
-                  )}
-                  <div className="product-info">
-                    <p className="product-title">{product.title}</p>
-                    <p className="product-price">${price.toFixed(2)}</p>
-                  </div>
-                </div>
-              );
-            })
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductTiles product={product} key={product.id} />
+            ))
           ) : (
-            <p>No products found or failed to fetch.</p>
+            <p>No products found.</p>
           )}
         </div>
 
