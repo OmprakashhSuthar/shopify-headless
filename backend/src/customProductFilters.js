@@ -2,7 +2,7 @@ const express = require("express");
 const app = express.Router();
 
 app.post('/customFilter', async (req, res) => {
-  const { limit = 100, after = null, filters = {} } = req.body;
+  const { limit = 100, after = null, filters = {}, collectionId = "Blinds" } = req.body;
 
   const filterEntries = [];
 
@@ -24,7 +24,7 @@ app.post('/customFilter', async (req, res) => {
 
   const query = `
         query GetCollectionFilters {
-            collection(handle: "Blinds") {
+            collection(handle: "${collectionId}") {
                 id
                 title
                 products(first: ${limit}${after ? `, after:"${after}"` : ''}${filtersQuery ? `, ${filtersQuery}` : ''}) {
@@ -64,7 +64,7 @@ app.post('/customFilter', async (req, res) => {
                 }
             }
         }`;
-
+  console.log(query)
   try {
     const response = await fetch(process.env.SHOPIFY_GRAPHQL_URL, {
       method: 'POST',

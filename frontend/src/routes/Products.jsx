@@ -5,6 +5,7 @@ import Pagination from "../components/Pagination";
 import ProductFilters from "../components/ProductFilters";
 import ProductTiles from "../components/ProductTiles";
 import "./Product.css";
+import { useParams } from "react-router";
 
 const PRODUCTS_PER_PAGE = 12;
 const API_URL = "http://localhost:8080/shopify/customFilter";
@@ -17,12 +18,13 @@ export default function Products() {
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState([]);
   const [filteredValues, setFilteredValues] = useState([]);
+  const { id: collectionId } = useParams();
 
   useEffect(() => {
     setPageInfoMap({ 1: null });
     setCurrentPage(1);
     setTotalPages(1);
-  }, [filteredValues]);
+  }, [filteredValues, collectionId]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,6 +38,7 @@ export default function Products() {
             limit: PRODUCTS_PER_PAGE,
             after: pageInfo || null,
             filters: filteredValues,
+            collectionId: collectionId.split("/").pop(),
           }),
         });
 
@@ -61,7 +64,7 @@ export default function Products() {
     if (pageInfoMap.hasOwnProperty(currentPage)) {
       fetchProducts();
     }
-  }, [currentPage, pageInfoMap, filteredValues]);
+  }, [currentPage, pageInfoMap, filteredValues, collectionId]);
 
   return (
     <>
