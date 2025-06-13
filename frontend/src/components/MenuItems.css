@@ -72,7 +72,7 @@
     padding: 0;
   }
 
-  .menu-link::after {
+  .menu > li > div .menu-link::after {
     content: none;
   }
 
