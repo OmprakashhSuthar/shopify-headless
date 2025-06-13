@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { FiX } from "react-icons/fi";
+import { FiFilter, FiX } from "react-icons/fi";
 import Pagination from "../components/Pagination";
 import ProductFilters from "../components/ProductFilters";
 import ProductTiles from "../components/ProductTiles";
@@ -75,6 +75,7 @@ export default function Products() {
             className="filter-button"
             onClick={() => setShowFilters(true)}
           >
+            <FiFilter style={{ marginRight: "6px" }} />
             Filter
           </button>
         </div>

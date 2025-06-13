@@ -51,7 +51,6 @@ export default function ProductFilters({
       ) : null}
 
       <div className="filters-container">
-        <h2 className="filters-title">Filters</h2>
         {Object.entries(filters).map(([key, filter]) => (
           <div className="filter-section" key={key}>
             <button

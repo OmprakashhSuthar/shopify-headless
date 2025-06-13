@@ -53,11 +53,6 @@
 }
 
 @media (max-width: 480px) {
-  .pagination-container {
-    flex-direction: column;
-    gap: 10px;
-  }
-
   .page-button {
     padding: 8px 12px;
     font-size: 1rem;

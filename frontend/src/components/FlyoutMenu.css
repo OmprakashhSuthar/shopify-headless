@@ -35,3 +35,31 @@
   margin: 4px 0;
   padding: 8px 0;
 }
+
+@media (max-width: 768px) {
+  .flyout-columns {
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .flyout-menu {
+    min-width: 100%;
+    border: none;
+    box-shadow: none;
+    padding: 10px 0 0 10px;
+    max-height: 100%;
+  }
+
+  .flyout-menu .links-container {
+    padding-left: 5px;
+    padding-bottom: 5px;
+  }
+
+  .flyout-heading {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+}

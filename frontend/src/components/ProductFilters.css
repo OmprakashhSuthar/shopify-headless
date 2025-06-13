@@ -1,18 +1,9 @@
 .filters-container {
-  background: #fff;
-  padding: 20px;
+  padding-top: 20px;
   border-radius: 8px;
   max-width: 360px;
   width: 100%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   font-family: "Segoe UI", sans-serif;
-}
-
-.filters-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
 }
 
 .filter-section {
@@ -156,6 +147,14 @@
 }
 
 @media (max-width: 600px) {
+  .filter-slider {
+    width: 75%;
+  }
+
+  .filters-container {
+    max-width: 100%;
+  }
+
   .filterOptions {
     padding: 15px;
     max-width: 100%;

@@ -42,3 +42,55 @@
 .header-icon:hover {
   color: #2c7ef8;
 }
+
+.mobile-navigation {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  height: 100%;
+  width: 75%;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  padding: 20px;
+  transition: right 0.3s ease-in-out;
+}
+
+.mobile-navigation.open {
+  right: 0;
+}
+
+.nav-heading {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.setBackground {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.setBackground.open {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 16px;
+  }
+}
