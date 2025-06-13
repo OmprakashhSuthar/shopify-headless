@@ -1,13 +1,13 @@
-import { useState } from "react";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
 import "./ProductFilters.css";
+import useExpandedSection from "../hooks/expandedHook";
 
 export default function ProductFilters({
   filters,
   filteredValues,
   setFilteredValues,
 }) {
-  const [expanded, setExpanded] = useState({});
+  const { expanded, toggleSection } = useExpandedSection();
 
   function handleOnClick(filterType, value) {
     setFilteredValues((prevValues) => {
@@ -28,13 +28,6 @@ export default function ProductFilters({
   function handleClearFilters() {
     setFilteredValues({});
   }
-
-  const toggleSection = (key) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
 
   if (!filters)
     return <div className="filters-loading">Loading filters...</div>;

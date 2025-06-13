@@ -1,17 +1,10 @@
 import FlyoutMenu from "./FlyoutMenu";
 import "./MenuItems.css";
 import Links from "./Links";
-import { useState } from "react";
+import useExpandedSection from "../hooks/expandedHook";
 
 export default function RenderMenuItems({ items, isMobile }) {
-  const [expanded, setExpanded] = useState({});
-
-  const toggleSection = (key) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
+  const { expanded, toggleSection } = useExpandedSection();
 
   return (
     <ul className="menu">

@@ -1,17 +1,10 @@
-import { useState } from "react";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import Links from "./Links";
 import "./FlyoutMenu.css";
+import useExpandedSection from "../hooks/expandedHook";
 
 export default function FlyoutMenu({ items, isMobile }) {
-  const [expanded, setExpanded] = useState({});
-
-  const toggleSection = (key) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
+  const { expanded, toggleSection } = useExpandedSection();
 
   return (
     <div className="flyout-menu">
