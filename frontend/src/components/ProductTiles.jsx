@@ -1,10 +1,11 @@
-import './ProductTiles.css'
+import "./ProductTiles.css";
+import { Link } from "react-router-dom";
 
 export default function PtoductTiles({ product }) {
   const imageSrc = product.featuredImage?.url;
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
   return (
-    <div className="product-card">
+    <Link to={`/product/${product.handle}`} className="product-card">
       {imageSrc && (
         <img src={imageSrc} alt={product.title} className="product-image" />
       )}
@@ -12,6 +13,6 @@ export default function PtoductTiles({ product }) {
         <p className="product-title">{product.title}</p>
         <p className="product-price">${price.toFixed(2)}</p>
       </div>
-    </div>
+    </Link>
   );
 }

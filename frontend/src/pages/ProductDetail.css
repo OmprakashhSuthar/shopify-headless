@@ -1,0 +1,164 @@
+.productDetailsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 40px;
+  margin: 0 auto;
+}
+
+.productImageSection {
+  flex: 1;
+  min-width: 600px;
+  max-width: 700px;
+  text-align: center;
+}
+
+.productImageSection img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.productDetails {
+  flex: 2;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #222;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.productDetails h1 {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.productDetails .price {
+  font-size: 1.8rem;
+  color: #e74c3c;
+  margin-top: 20px;
+}
+
+.productDetails .description {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 20px;
+}
+
+.productInfo {
+  display: flex;
+  font-size: 14px;
+  padding: 10px 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vendor-text {
+  font-weight: 600;
+}
+
+.vendor-info {
+  font-weight: 400;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tags .tag {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.product-options .buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.product-options button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.selected {
+  background-color: black;
+  color: white;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.quantity-section {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.minus,
+.plus {
+  padding: 5px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.quantityField {
+  border: none;
+  width: 100%;
+  max-width: 20px;
+  align-items: center;
+  outline: none;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .productDetailsContainer {
+    padding: 20px;
+  }
+
+  .productImageSection {
+    max-width: 100%;
+  }
+
+  .productDetails {
+    font-size: 1.4rem;
+  }
+
+  .productDetails h1 {
+    font-size: 2rem;
+  }
+
+  .productDetails .price {
+    font-size: 1.6rem;
+  }
+
+  .productDetails .description {
+    font-size: 0.9rem;
+  }
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+  margin-top: 8px;
+  font-weight: 600;
+  text-align: end;
+}

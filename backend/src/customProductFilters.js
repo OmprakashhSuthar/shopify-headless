@@ -43,6 +43,7 @@ app.post('/customFilter', async (req, res) => {
                         node {
                             id,
                             title,
+                            handle
                             description,
                             priceRange {
                                 minVariantPrice {
