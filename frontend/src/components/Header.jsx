@@ -3,26 +3,14 @@ import { useEffect, useState } from "react";
 import RenderMenuItems from "./MenuItems";
 import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import "./Header.css";
-
-const API_URL = "http://localhost:8080/shopify/menu";
+import { useQuery } from "@tanstack/react-query";
+import apiFunctions from "../util/http";
 
 export default function Header() {
-  const [menuItems, setMenuItems] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
-    const fetchMenuItems = async () => {
-      try {
-        const res = await fetch(API_URL);
-        const menus = await res.json();
-        setMenuItems(menus);
-      } catch (error) {
-        console.log("Failed to fetch Menu: ", error);
-      }
-    };
-    fetchMenuItems();
-
     const isMobileView = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -34,6 +22,23 @@ export default function Header() {
       window.removeEventListener("resize", isMobileView);
     };
   }, []);
+
+  const {
+    data: menuItems,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["menus"],
+    queryFn: apiFunctions.fetchMenuItems,
+  });
+
+  if (isLoading) {
+    return <p>Loading menu...</p>;
+  }
+
+  if (isError) {
+    return <p>Error occured while loading the menu.</p>;
+  }
 
   const toggleDrawer = (e) => {
     e.preventDefault();
@@ -93,13 +98,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <>
-              {menuItems.length === 0 ? (
-                <p>Loading menu...</p>
-              ) : (
-                <RenderMenuItems items={menuItems} isMobile={isMobile} />
-              )}
-            </>
+            <RenderMenuItems items={menuItems} isMobile={isMobile} />
           )}
         </nav>
       </div>

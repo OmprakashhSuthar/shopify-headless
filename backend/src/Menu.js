@@ -1,11 +1,5 @@
 const express = require("express");
 const app = express.Router();
-const https = require("https");
-
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
-
-const agent = new https.Agent({ family: 4 });
 
 app.get('/menu', async (req, res) => {
   const query = `
@@ -45,7 +39,6 @@ app.get('/menu', async (req, res) => {
         'X-Shopify-Storefront-Access-Token': process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       },
       body: JSON.stringify({ query }),
-      agent
     });
 
     if (!response.ok) {

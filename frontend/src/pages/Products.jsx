@@ -6,65 +6,54 @@ import ProductFilters from "../components/ProductFilters";
 import ProductTiles from "../components/ProductTiles";
 import "./Product.css";
 import { useParams } from "react-router";
-
-const PRODUCTS_PER_PAGE = 12;
-const API_URL = "http://localhost:8080/shopify/customFilter";
+import { useQuery } from "@tanstack/react-query";
+import apiFunctions from "../util/http";
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
   const [pageInfoMap, setPageInfoMap] = useState({ 1: null });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState([]);
   const [filteredValues, setFilteredValues] = useState([]);
   const { id: collectionId } = useParams();
 
-  useEffect(() => {
-    setPageInfoMap({ 1: null });
-    setCurrentPage(1);
-    setTotalPages(1);
-  }, [filteredValues, collectionId]);
+  // useEffect(() => {
+  //   setPageInfoMap({ 1: null });
+  //   setCurrentPage(1);
+  //   setTotalPages(1);
+  // }, [filteredValues, collectionId]);
+
+  const pageInfo = pageInfoMap[currentPage];
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: [
+      "products",
+      "filters",
+      currentPage,
+      filteredValues,
+      collectionId,
+    ],
+    queryFn: () =>
+      apiFunctions.fetchProducts(pageInfo, filteredValues, collectionId),
+    keepPreviousData: true,
+  });
+
+  const { products, filters } = data || {};
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const pageInfo = pageInfoMap[currentPage];
-
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            limit: PRODUCTS_PER_PAGE,
-            after: pageInfo || null,
-            filters: filteredValues,
-            collectionId: collectionId.split("/").pop(),
-          }),
-        });
-
-        const data = await res.json();
-        setProducts(data.products.products);
-
-        if (currentPage === 1) {
-          setFilters(data.filters);
-        }
-
-        if (data.products.nextPageCursor && !pageInfoMap[currentPage + 1]) {
-          setPageInfoMap((prev) => ({
-            ...prev,
-            [currentPage + 1]: data.products.nextPageCursor,
-          }));
-          setTotalPages((prev) => Math.max(prev, currentPage + 1));
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      }
-    };
-
-    if (pageInfoMap.hasOwnProperty(currentPage)) {
-      fetchProducts();
+    if (data?.nextPageCursor && !pageInfoMap[currentPage + 1]) {
+      setPageInfoMap((prev) => ({
+        ...prev,
+        [currentPage + 1]: data?.nextPageCursor,
+      }));
+      setTotalPages((prev) => Math.max(prev, currentPage + 1));
     }
-  }, [currentPage, pageInfoMap, filteredValues, collectionId]);
+    if (filteredValues.length > 0) {
+      setPageInfoMap({ 1: null });
+      setCurrentPage(1);
+      setTotalPages(1);
+    }
+  }, [data, currentPage, pageInfoMap, filteredValues]);
 
   return (
     <>
@@ -99,7 +88,11 @@ export default function Products() {
         </div>
 
         <div className="product-grid">
-          {products.length > 0 ? (
+          {isLoading ? (
+            <p>Product Loading...</p>
+          ) : isError ? (
+            <p>Error in loading products: {error.message}</p>
+          ) : products.length > 0 ? (
             products.map((product) => (
               <ProductTiles product={product} key={product.id} />
             ))

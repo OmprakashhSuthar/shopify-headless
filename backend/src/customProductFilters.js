@@ -1,11 +1,5 @@
 const express = require("express");
 const app = express.Router();
-const https = require("https");
-
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
-
-const agent = new https.Agent({ family: 4 });
 
 app.post('/customFilter', async (req, res) => {
   const { limit = 100, after = null, filters = {}, collectionId = "Blinds" } = req.body;
@@ -80,7 +74,6 @@ app.post('/customFilter', async (req, res) => {
         'X-Shopify-Storefront-Access-Token': process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       },
       body: JSON.stringify({ query }),
-      agent
     });
 
     if (!response.ok) {
