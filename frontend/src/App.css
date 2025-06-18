@@ -42,6 +42,7 @@ main {
   padding-top: 120px;
   margin: auto;
   max-width: 1400px;
+  position: relative;
 }
 
 @keyframes App-logo-spin {

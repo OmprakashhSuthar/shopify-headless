@@ -6,6 +6,7 @@
   gap: 30px;
   padding: 40px;
   margin: 0 auto;
+  position: absolute;
 }
 
 .productImageSection {
