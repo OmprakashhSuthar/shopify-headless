@@ -41,6 +41,7 @@ async function fetchProducts(pageInfo, filteredValues, collectionId) {
         const filters = responseData.filters || [];
         const nextPageCursor = responseData.products.nextPageCursor || null;
         const totalPages = responseData.products.totalPages || 1;
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         return { products, filters, nextPageCursor, totalPages };
     } catch (error) {
@@ -50,9 +51,30 @@ async function fetchProducts(pageInfo, filteredValues, collectionId) {
 
 }
 
+async function fetchProductDetails(productId) {
+    console.log(productId)
+    try {
+        const res = await fetch(API_URL + "productDetails", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId }),
+        });
+        const data = await res.json();
+        console.log(res)
+        const productDetails = data.productData.product || null;
+        await new Promise(resolve => setTimeout(resolve, 500));
+        console.log(productDetails)
+        return { productDetails };
+
+    } catch (error) {
+        console.error("Failed to fetch product details:", error);
+    }
+}
+
 const apiFunctions = {
     fetchMenuItems,
-    fetchProducts
+    fetchProducts,
+    fetchProductDetails
 }
 
 export default apiFunctions;

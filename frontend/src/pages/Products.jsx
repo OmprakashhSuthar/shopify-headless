@@ -4,6 +4,7 @@ import { FiFilter, FiX } from "react-icons/fi";
 import Pagination from "../components/Pagination";
 import ProductFilters from "../components/ProductFilters";
 import ProductTiles from "../components/ProductTiles";
+import Spinner from "../components/Spinner";
 import "./Product.css";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -79,12 +80,13 @@ export default function Products() {
             filters={filters}
             setFilteredValues={setFilteredValues}
             filteredValues={filteredValues}
+            setShowFilters={setShowFilters}
           />
         </div>
 
         <div className="product-grid">
           {isLoading ? (
-            <p>Product Loading...</p>
+            <Spinner />
           ) : isError ? (
             <p>Error in loading products: {error.message}</p>
           ) : products.length > 0 ? (

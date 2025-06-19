@@ -6,6 +6,7 @@ export default function ProductFilters({
   filters,
   filteredValues,
   setFilteredValues,
+  setShowFilters,
 }) {
   const { expanded, toggleSection } = useExpandedSection();
 
@@ -27,6 +28,7 @@ export default function ProductFilters({
 
   function handleClearFilters() {
     setFilteredValues({});
+    setShowFilters(false)
   }
 
   if (!filters)
@@ -71,6 +73,7 @@ export default function ProductFilters({
                             value.label
                           )}
                           onChange={() => handleOnClick(key, value.label)}
+                          onClick={() => setShowFilters(false)}
                         />
                         <span>
                           {isColorFilter && (

@@ -5,7 +5,7 @@ export default function PtoductTiles({ product }) {
   const imageSrc = product.featuredImage?.url;
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
   return (
-    <Link to={`/product/${product.handle}`} className="product-card">
+    <Link to={`/products/${product.handle}`} className="product-card">
       {imageSrc && (
         <img src={imageSrc} alt={product.title} className="product-image" />
       )}

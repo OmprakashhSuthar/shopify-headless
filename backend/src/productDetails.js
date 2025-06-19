@@ -1,12 +1,8 @@
 const express = require("express");
 const app = express.Router();
-const https = require("https");
-
-const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const agent = new https.Agent({ family: 4 });
 
 app.post('/productDetails', async (req, res) => {
-  const { productID = "tshirt" } = req.body;
+  const productID = req.body.productId || "tshirt";
   const query = `
         query getProduct {
             product(handle: "${productID}") {
@@ -94,7 +90,6 @@ app.post('/productDetails', async (req, res) => {
         'X-Shopify-Storefront-Access-Token': process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       },
       body: JSON.stringify({ query }),
-      agent
     });
     if (!response.ok) {
       throw new Error(`GraphQL API returned status: ${response.status}`)

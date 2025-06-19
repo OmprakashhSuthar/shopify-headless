@@ -1,3 +1,3 @@
-export default function Errorpage() {
-  return <h1>Page not found!</h1>;
+export default function Errorpage({ errorMsg }) {
+  return <>{errorMsg ? errorMsg : <h1>Page not found!</h1>}</>;
 }
