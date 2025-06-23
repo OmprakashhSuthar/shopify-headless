@@ -33,6 +33,12 @@
   font-size: 1.1rem;
   font-weight: 500;
   color: #e60000;
+  display: flex;
+  gap: 10px;
+}
+
+.price-text {
+  color: black;
 }
 
 @media (max-width: 480px) {

@@ -107,20 +107,24 @@ export default function ProductDetails() {
               </div>
             )}
         </div>
-        {productDetail.productDetails?.priceRange?.minVariantPrice?.amount && (
-          <div className="product-price">
-            <p className="price">
-              From $
-              {productDetail.productDetails.priceRange.minVariantPrice.amount}
-            </p>
-          </div>
-        )}
-        {productDetail.productDetails.variants &&
-          productDetail.productDetails.variants.edges.length > 1 && (
-            <ProductVariants
-              variants={productDetail.productDetails.variants}
-              onVariantChange={handleVariantChange}
-            />
+        {productDetail.productDetails.variantsCount.count <= 1 &&
+          productDetail.productDetails?.priceRange?.minVariantPrice?.amount && (
+            <>
+              <div className="product-price">
+                <span className="price-text">Price: </span>
+                <p className="price-info">
+                  $
+                  {
+                    productDetail.productDetails.priceRange.minVariantPrice
+                      .amount
+                  }
+                </p>
+              </div>
+            </>
+          )}
+        {productDetail.productDetails.variantsCount.count &&
+          productDetail.productDetails.variantsCount.count > 1 && (
+            <ProductVariants pid={pid} onVariantChange={handleVariantChange} />
           )}
         <div className="quantity-section">
           <button className="minus" onClick={handleDecrease}>

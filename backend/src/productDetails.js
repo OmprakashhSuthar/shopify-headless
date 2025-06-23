@@ -51,33 +51,8 @@ app.post('/productDetails', async (req, res) => {
                   }
                 }
               }
-              variants(first: 20) {
-                edges {
-                  node {
-                    id
-                    title
-                    sku
-                    availableForSale
-                    quantityAvailable
-                    price {
-                      amount
-                      currencyCode
-                    }
-                    compareAtPrice {
-                      amount
-                      currencyCode
-                    }
-                    selectedOptions {
-                      name
-                      value
-                    }
-                    image {
-                      id
-                      url
-                      altText
-                    }
-                  }
-                }
+              variantsCount {
+                count
               }
             }
         }
@@ -99,6 +74,62 @@ app.post('/productDetails', async (req, res) => {
     return res.json(
       { productData: productData.data },
     );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
+app.post('/getVarients', async (req, res) => {
+  const productID = req.body.productId || "tshirt";
+  const query = `
+     query getVarient{
+      product(handle: "${productID}") {
+      variants(first: 100) {
+        edges {
+          node {
+            id
+            title
+            sku
+            availableForSale
+            quantityAvailable
+            price {
+              amount
+              currencyCode
+            }
+            selectedOptions {
+              name
+              value
+            }
+            image {
+              id
+              url
+              altText
+            }
+          }
+        }
+      }
+    }
+ }`
+
+  try {
+    const response = await fetch(process.env.SHOPIFY_GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`GraphQL API returned status: ${response.status}`)
+    }
+
+    const variants = await response.json();
+    return res.json({
+      variants: variants.data.product.variants.edges,
+    })
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

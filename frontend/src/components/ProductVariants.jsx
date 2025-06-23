@@ -1,32 +1,64 @@
 import React, { useState, useEffect } from "react";
 
-const ProductVariants = ({ variants, onVariantChange }) => {
+const ProductVariants = ({ pid, onVariantChange }) => {
   const [colorOptions, setColorOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [variants, setVariants] = useState([]);
+
+  useEffect(() => {
+    async function fetchVarients() {
+      const API_URL = "http://localhost:8080/shopify/getVarients";
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: pid,
+        }),
+      });
+      const data = await response.json();
+      setVariants(data.variants || []);
+    }
+
+    fetchVarients();
+  }, [pid]);
 
   useEffect(() => {
     const colors = [];
     const sizes = [];
 
-    variants.edges.forEach((variant) => {
-      variant.node.selectedOptions.forEach((option) => {
-        if (
-          option.name.toLowerCase() === "color" &&
-          !colors.includes(option.value)
-        ) {
-          colors.push(option.value);
-        }
-        if (
-          option.name.toLowerCase() === "size" &&
-          !sizes.includes(option.value)
-        ) {
-          sizes.push(option.value);
+    if (variants.length > 0) {
+      variants.forEach((variant) => {
+        if (variant.node && variant.node.selectedOptions) {
+          console.log("Called");
+          variant.node.selectedOptions.forEach((option) => {
+            console.log("option");
+            console.log(option);
+            if (
+              option.name.toLowerCase() === "color" &&
+              !colors.includes(option.value)
+            ) {
+              colors.push(option.value);
+            }
+            if (
+              option.name.toLowerCase() === "size" &&
+              !sizes.includes(option.value)
+            ) {
+              sizes.push(option.value);
+            }
+          });
+        } else {
+          console.warn(
+            `Variant node or selectedOptions missing for variant: ${variant}`
+          );
+          console.log(variant);
         }
       });
-    });
+    }
 
     setColorOptions(colors);
     setSizeOptions(sizes);
@@ -43,7 +75,7 @@ const ProductVariants = ({ variants, onVariantChange }) => {
   };
 
   const updateSelectedVariant = (color, size) => {
-    const selectedVariant = variants.edges.find((variant) => {
+    const selectedVariant = variants.find((variant) => {
       const colorOption = variant.node.selectedOptions.find(
         (option) =>
           option.name.toLowerCase() === "color" && option.value === color
