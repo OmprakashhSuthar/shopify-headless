@@ -1,28 +1,15 @@
 /* eslint-disable array-callback-return */
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import RenderMenuItems from "./MenuItems";
 import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import "./Header.css";
 import { useQuery } from "@tanstack/react-query";
 import apiFunctions from "../util/http";
+import { IsMobileCtx } from "./context/IsMobileContext";
 
 export default function Header() {
-  const [isMobile, setIsMobile] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    const isMobileView = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    isMobileView();
-    window.addEventListener("resize", isMobileView);
-
-    return () => {
-      window.removeEventListener("resize", isMobileView);
-    };
-  }, []);
-
+  const isMobile = useContext(IsMobileCtx);
   const {
     data: menuItems,
     isLoading,
@@ -94,11 +81,11 @@ export default function Header() {
                     onClick={() => setIsDrawerOpen(false)}
                   />
                 </div>
-                <RenderMenuItems items={menuItems} isMobile={isMobile} />
+                <RenderMenuItems items={menuItems} />
               </div>
             </>
           ) : (
-            <RenderMenuItems items={menuItems} isMobile={isMobile} />
+            <RenderMenuItems items={menuItems} />
           )}
         </nav>
       </div>

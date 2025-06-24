@@ -2,9 +2,12 @@ import { FiPlus, FiMinus } from "react-icons/fi";
 import Links from "./Links";
 import "./FlyoutMenu.css";
 import useExpandedSection from "../hooks/expandedHook";
+import { useContext } from "react";
+import { IsMobileCtx } from "./context/IsMobileContext";
 
-export default function FlyoutMenu({ items, isMobile }) {
+export default function FlyoutMenu({ items }) {
   const { expanded, toggleSection } = useExpandedSection();
+  const isMobile = useContext(IsMobileCtx);
 
   return (
     <div className="flyout-menu">
@@ -23,7 +26,7 @@ export default function FlyoutMenu({ items, isMobile }) {
 
             {(expanded[index] || !isMobile) &&
               column.items.map((subItem) => (
-                <Links key={subItem.id} items={subItem} isMobile={isMobile} />
+                <Links key={subItem.id} items={subItem} />
               ))}
           </div>
         ))}

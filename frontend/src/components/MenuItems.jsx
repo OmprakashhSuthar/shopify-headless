@@ -2,9 +2,12 @@ import FlyoutMenu from "./FlyoutMenu";
 import "./MenuItems.css";
 import Links from "./Links";
 import useExpandedSection from "../hooks/expandedHook";
+import { useContext } from "react";
+import { IsMobileCtx } from "./context/IsMobileContext";
 
-export default function RenderMenuItems({ items, isMobile }) {
+export default function RenderMenuItems({ items }) {
   const { expanded, toggleSection } = useExpandedSection();
+  const isMobile = useContext(IsMobileCtx);
 
   return (
     <ul className="menu">
@@ -14,11 +17,10 @@ export default function RenderMenuItems({ items, isMobile }) {
             toggleSection={() => toggleSection(index)}
             expandedKey={expanded[index]}
             items={item}
-            isMobile={isMobile}
           />
           {item.items.length > 0 && (expanded[index] || !isMobile) && (
             <div className="floyout-wrapper">
-              <FlyoutMenu items={item.items} isMobile={isMobile} />
+              <FlyoutMenu items={item.items} />
             </div>
           )}
         </li>

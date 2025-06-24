@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
+import IsMobileContext from "./components/context/IsMobileContext";
 
 function App() {
   return (
     <>
       <header>
-        <Header />
+        <IsMobileContext>
+          <Header />
+        </IsMobileContext>
       </header>
       <main>
         <Outlet />
