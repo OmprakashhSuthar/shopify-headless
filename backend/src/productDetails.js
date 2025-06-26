@@ -82,34 +82,30 @@ app.post('/productDetails', async (req, res) => {
 app.post('/getVarients', async (req, res) => {
   const productID = req.body.productId || "tshirt";
   const query = `
-     query getVarient{
+     query getVarient {
       product(handle: "${productID}") {
-      variants(first: 100) {
-        edges {
-          node {
-            id
-            title
-            sku
-            availableForSale
-            quantityAvailable
-            price {
-              amount
-              currencyCode
-            }
-            selectedOptions {
-              name
-              value
-            }
-            image {
+        variants(first: 100) {
+          edges {
+            node {
               id
-              url
-              altText
+              title
+              sku
+              availableForSale
+              quantityAvailable
+              price {
+                amount
+                currencyCode
+              }
+              selectedOptions {
+                name
+                value
+              }
             }
           }
         }
       }
     }
- }`
+  `;
 
   try {
     const response = await fetch(process.env.SHOPIFY_GRAPHQL_URL, {
@@ -122,17 +118,51 @@ app.post('/getVarients', async (req, res) => {
     });
 
     if (!response.ok) {
-      throw new Error(`GraphQL API returned status: ${response.status}`)
+      throw new Error(`GraphQL API returned status: ${response.status}`);
     }
 
     const variants = await response.json();
-    return res.json({
-      variants: variants.data.product.variants.edges,
-    })
+    const variantEdges = variants.data.product.variants.edges;
 
+    const availableVariants = variantEdges.filter(({ node }) => node.availableForSale);
+
+    const groupedVariants = availableVariants.reduce((obj, { node }) => {
+      const options = node.selectedOptions.reduce((obj, { name, value }) => {
+        const lowerName = name.toLowerCase();
+        if (lowerName === 'color') obj.color = value;
+        if (lowerName === 'size') obj.size = value;
+        return obj;
+      }, {});
+
+      if (!options.color || !options.size) return obj;
+
+      console.log(obj[options.color]);
+
+      if (!obj[options.color]) {
+        obj[options.color] = { sizes: [], price: node.price };
+      }
+
+      console.log(obj[options.color]);
+
+      if (!obj[options.color].sizes.includes(options.size)) {
+        obj[options.color].sizes.push({ size: options.size, price: node.price });
+
+      }
+      console.log(obj)
+      return obj;
+    }, {});
+
+
+    const responseData = {
+      availableColors: Object.keys(groupedVariants),
+      colorDetails: groupedVariants,
+    };
+    console.log(responseData)
+    return res.json(responseData);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
-})
+});
+
 
 module.exports = app;
