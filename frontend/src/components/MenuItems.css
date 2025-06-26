@@ -13,7 +13,6 @@
 .menu-link {
   text-decoration: none;
   color: #333;
-  padding: 8px 0;
   position: relative;
   transition: color 0.3s ease;
 }

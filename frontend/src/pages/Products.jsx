@@ -65,6 +65,13 @@ export default function Products() {
           </button>
         </div>
 
+        {showFilters && (
+          <div
+            className="filter-overlay"
+            onClick={() => setShowFilters(false)}
+          ></div>
+        )}
+
         {/* Filter Panel */}
         <div className={`filter-slider ${showFilters ? "open" : ""}`}>
           <div className="filter-slider-header">
@@ -76,6 +83,7 @@ export default function Products() {
               <FiX />
             </button>
           </div>
+          <div className="underline-menu"></div>
           <ProductFilters
             filters={filters}
             setFilteredValues={setFilteredValues}

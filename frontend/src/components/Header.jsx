@@ -74,14 +74,20 @@ export default function Header() {
               <div
                 className={`mobile-navigation ${isDrawerOpen ? "open" : ""}`}
               >
-                <div className="nav-heading">
-                  <h2>Menu</h2>
-                  <FiX
-                    className="close-button"
-                    onClick={() => setIsDrawerOpen(false)}
-                  />
+                <div className="menu-logo">
+                  <div className="nav-heading">
+                    <h2>Menu</h2>
+                    <FiX
+                      className="close-button"
+                      onClick={() => setIsDrawerOpen(false)}
+                    />
+                  </div>
+                  <div className="underline-menu"></div>
                 </div>
-                <RenderMenuItems items={menuItems} />
+                <RenderMenuItems
+                  items={menuItems}
+                  setIsDrawerOpen={() => setIsDrawerOpen(false)}
+                />
               </div>
             </>
           ) : (

@@ -1,7 +1,7 @@
 .site-header {
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
   background-color: #fff;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
   width: 100%;
@@ -64,7 +64,7 @@
 .nav-heading {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  padding-bottom: 20px;
 }
 
 .close-button {
@@ -92,5 +92,14 @@
 @media (max-width: 768px) {
   .header-container {
     padding: 16px;
+  }
+  .underline-menu {
+    border-bottom: 1px solid #eee;
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  .menu-logo {
+    margin-bottom: 10px;
   }
 }

@@ -1,7 +1,7 @@
 .flyout-menu {
   display: flex;
   gap: 32px;
-  padding: 32px;
+  padding: 32px 0;
   background: #fff;
   border: 1px solid #eee;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -16,6 +16,9 @@
   gap: 32px;
   flex: 2;
   justify-content: space-around;
+  max-width: 1400px;
+  width: 100%;
+  margin: auto;
 }
 
 .flyout-column {
@@ -59,7 +62,7 @@
   .flyout-heading {
     display: flex;
     justify-content: space-between;
-    font-weight: 400;
+    font-weight: 700;
     margin-bottom: 15px;
   }
 }

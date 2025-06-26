@@ -5,7 +5,7 @@ import useExpandedSection from "../hooks/expandedHook";
 import { useContext } from "react";
 import { IsMobileCtx } from "./context/IsMobileContext";
 
-export default function FlyoutMenu({ items }) {
+export default function FlyoutMenu({ items, setIsDrawerOpen }) {
   const { expanded, toggleSection } = useExpandedSection();
   const isMobile = useContext(IsMobileCtx);
 
@@ -26,7 +26,11 @@ export default function FlyoutMenu({ items }) {
 
             {(expanded[index] || !isMobile) &&
               column.items.map((subItem) => (
-                <Links key={subItem.id} items={subItem} />
+                <Links
+                  key={subItem.id}
+                  items={subItem}
+                  setIsDrawerOpen={setIsDrawerOpen}
+                />
               ))}
           </div>
         ))}
