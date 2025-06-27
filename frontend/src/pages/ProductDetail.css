@@ -9,6 +9,11 @@
   position: absolute;
 }
 
+.notFound {
+  text-align: center;
+  margin-top: 80px;
+}
+
 .productImageSection {
   flex: 1;
   min-width: 600px;

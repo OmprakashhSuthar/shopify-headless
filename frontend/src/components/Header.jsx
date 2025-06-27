@@ -1,11 +1,12 @@
 /* eslint-disable array-callback-return */
 import { useContext, useState } from "react";
 import RenderMenuItems from "./MenuItems";
-import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
+import { FiUser, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import "./Header.css";
 import { useQuery } from "@tanstack/react-query";
 import apiFunctions from "../util/http";
 import { IsMobileCtx } from "./context/IsMobileContext";
+import Search from "./Search";
 
 export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -43,9 +44,7 @@ export default function Header() {
           </div>
 
           <div className="header-actions">
-            <a href="/search" className="header-icon" aria-label="Search">
-              <FiSearch />
-            </a>
+            <Search />
             <a href="/account" className="header-icon" aria-label="Account">
               <FiUser />
             </a>

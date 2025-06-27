@@ -66,6 +66,14 @@ export default function ProductDetails() {
     }
   };
 
+  if (!productDetail?.productDetails) {
+    return (
+      <h1 className="notFound">
+        Oops! The product name with "{pid}" is Not Found.
+      </h1>
+    );
+  }
+
   return (
     <div className="productDetailsContainer">
       <div className="productImageSection">

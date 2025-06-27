@@ -22,7 +22,7 @@ export default function Products() {
     setPageInfoMap({ 1: null });
     setCurrentPage(1);
     setTotalPages(1);
-  }, [filteredValues, collectionId]);
+  }, [filteredValues]);
 
   const pageInfo = pageInfoMap[currentPage];
 
