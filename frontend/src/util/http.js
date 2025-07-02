@@ -71,10 +71,27 @@ async function fetchProductDetails(productId) {
     }
 }
 
+async function fetchSearchSuggestions(q) {
+    try {
+        const res = await fetch(API_URL + "search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ q }),
+        });
+        const data = await res.json();
+        const searchSuggestions = data || null;
+        return { searchSuggestions };
+
+    } catch (error) {
+        console.error("Failed to fetch product details:", error);
+    }
+}
+
 const apiFunctions = {
     fetchMenuItems,
     fetchProducts,
-    fetchProductDetails
+    fetchProductDetails,
+    fetchSearchSuggestions
 }
 
 export default apiFunctions;

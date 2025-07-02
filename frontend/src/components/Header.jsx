@@ -1,12 +1,12 @@
 /* eslint-disable array-callback-return */
 import { useContext, useState } from "react";
 import RenderMenuItems from "./MenuItems";
-import { FiUser, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 import "./Header.css";
 import { useQuery } from "@tanstack/react-query";
 import apiFunctions from "../util/http";
 import { IsMobileCtx } from "./context/IsMobileContext";
-import Search from "./Search";
+import HeaderActions from "./HeaderActions";
 
 export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -16,7 +16,6 @@ export default function Header() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["menus"],
     queryFn: apiFunctions.fetchMenuItems,
   });
 
@@ -42,26 +41,7 @@ export default function Header() {
               Shopify<span>Store</span>
             </a>
           </div>
-
-          <div className="header-actions">
-            <Search />
-            <a href="/account" className="header-icon" aria-label="Account">
-              <FiUser />
-            </a>
-            <a href="/cart" className="header-icon" aria-label="Cart">
-              <FiShoppingCart />
-            </a>
-            {isMobile && (
-              <a
-                href="/"
-                className="header-icon"
-                onClick={toggleDrawer}
-                area-label="Menu"
-              >
-                <FiMenu />
-              </a>
-            )}
-          </div>
+          <HeaderActions toggleDrawer={toggleDrawer} />
         </div>
         <nav>
           {isMobile ? (
