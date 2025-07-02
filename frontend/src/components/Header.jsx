@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import apiFunctions from "../util/http";
 import { IsMobileCtx } from "./context/IsMobileContext";
 import HeaderActions from "./HeaderActions";
+import Search from "./Search";
 
 export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -63,6 +64,7 @@ export default function Header() {
                   </div>
                   <div className="underline-menu"></div>
                 </div>
+                <Search />
                 <RenderMenuItems
                   items={menuItems}
                   setIsDrawerOpen={() => setIsDrawerOpen(false)}

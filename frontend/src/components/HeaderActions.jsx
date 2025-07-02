@@ -7,7 +7,7 @@ export default function HeaderActions({ toggleDrawer }) {
   const isMobile = useContext(IsMobileCtx);
   return (
     <>
-      <Search />
+      {!isMobile && <Search />}
       <div className="header-actions">
         <a href="/account" className="header-icon" aria-label="Account">
           <FiUser />

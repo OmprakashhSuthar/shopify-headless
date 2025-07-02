@@ -11,13 +11,10 @@ const Search = () => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleOnFocus = () => {
-    console.log("OnFocus");
     setIsFocused(true);
   };
 
   const handleBlur = (e) => {
-    console.log("OnBlur");
-
     if (e.relatedTarget && e.relatedTarget.closest(".suggestion-box")) {
       return;
     }
