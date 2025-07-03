@@ -65,7 +65,6 @@ app.post('/customFilter', async (req, res) => {
                 }
             }
         }`;
-  console.log(query)
   try {
     const response = await fetch(process.env.SHOPIFY_GRAPHQL_URL, {
       method: 'POST',

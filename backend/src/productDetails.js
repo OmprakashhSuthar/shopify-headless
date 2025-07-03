@@ -136,19 +136,14 @@ app.post('/getVarients', async (req, res) => {
 
       if (!options.color || !options.size) return obj;
 
-      console.log(obj[options.color]);
-
       if (!obj[options.color]) {
         obj[options.color] = { sizes: [], price: node.price };
       }
-
-      console.log(obj[options.color]);
 
       if (!obj[options.color].sizes.includes(options.size)) {
         obj[options.color].sizes.push({ size: options.size, price: node.price });
 
       }
-      console.log(obj)
       return obj;
     }, {});
 
@@ -157,7 +152,6 @@ app.post('/getVarients', async (req, res) => {
       availableColors: Object.keys(groupedVariants),
       colorDetails: groupedVariants,
     };
-    console.log(responseData)
     return res.json(responseData);
   } catch (error) {
     return res.status(500).json({ error: error.message });

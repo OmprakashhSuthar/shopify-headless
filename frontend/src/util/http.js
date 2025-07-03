@@ -52,7 +52,6 @@ async function fetchProducts(pageInfo, filteredValues, collectionId) {
 }
 
 async function fetchProductDetails(productId) {
-    console.log(productId)
     try {
         const res = await fetch(API_URL + "productDetails", {
             method: "POST",
@@ -60,10 +59,8 @@ async function fetchProductDetails(productId) {
             body: JSON.stringify({ productId }),
         });
         const data = await res.json();
-        console.log(res)
         const productDetails = data.productData.product || null;
         await new Promise(resolve => setTimeout(resolve, 500));
-        console.log(productDetails)
         return { productDetails };
 
     } catch (error) {
