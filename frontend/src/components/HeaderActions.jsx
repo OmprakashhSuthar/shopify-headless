@@ -1,17 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiUser, FiShoppingCart, FiMenu } from "react-icons/fi";
 import Search from "./Search";
 import { IsMobileCtx } from "./context/IsMobileContext";
+import { Link } from "react-router-dom";
 
 export default function HeaderActions({ toggleDrawer }) {
+  const [redirect, setRedirect] = useState("");
   const isMobile = useContext(IsMobileCtx);
+
+  useEffect(() => {
+    const storedCustomer = localStorage.getItem("customer");
+    if (storedCustomer) {
+      setRedirect("/account");
+    } else {
+      setRedirect("/account/login");
+    }
+  }, []);
+
   return (
     <>
       {!isMobile && <Search />}
       <div className="header-actions">
-        <a href="/account" className="header-icon" aria-label="Account">
+        <Link to={redirect} className="header-icon" aria-label="Account">
           <FiUser />
-        </a>
+        </Link>
         <a href="/cart" className="header-icon" aria-label="Cart">
           <FiShoppingCart />
         </a>

@@ -7,6 +7,7 @@ const customProductFilters = require('./src/customProductFilters')
 const menu = require('./src/Menu')
 const productDetails = require('./src/productDetails')
 const search = require('./src/Search')
+const account = require('./src/account')
 require('dotenv').config();
 
 app.use(cors());
@@ -17,6 +18,7 @@ app.use('/shopify', customProductFilters)
 app.use('/shopify', menu)
 app.use('/shopify', productDetails)
 app.use('/shopify', search)
+app.use('/shopify', account)
 
 app.get('/', (req, res) => {
     res.send("Backend is running!");

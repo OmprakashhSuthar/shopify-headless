@@ -4,6 +4,9 @@ import Errorpage from "../pages/Errorpage";
 import ProductDetails from "../pages/ProductDetail";
 import Products from "../pages/Products";
 import SearchSuggestionsPage from "../pages/SearchSuggestionsPage";
+import Login from "../pages/Login";
+import SignUp from "../pages/SignUp";
+import Account from "../pages/Account";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +25,20 @@ const router = createBrowserRouter([
             {
                 path: 'search/:q',
                 element: <SearchSuggestionsPage />
+            },
+            {
+                path: 'account',
+                element: <Account />,
+                children: [
+                    {
+                        path: 'signup',
+                        element: <SignUp />
+                    },
+                    {
+                        path: 'login',
+                        element: <Login />
+                    },
+                ]
             }
         ]
     }

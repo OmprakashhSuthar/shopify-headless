@@ -84,11 +84,27 @@ async function fetchSearchSuggestions(q) {
     }
 }
 
+async function fetchCustomerData(email, password) {
+    try {
+        const res = await fetch(API_URL + "login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        return { data };
+
+    } catch (error) {
+        console.error("Failed to fetch customer details:", error);
+    }
+}
+
 const apiFunctions = {
     fetchMenuItems,
     fetchProducts,
     fetchProductDetails,
-    fetchSearchSuggestions
+    fetchSearchSuggestions,
+    fetchCustomerData,
 }
 
 export default apiFunctions;

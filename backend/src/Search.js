@@ -11,7 +11,7 @@ app.post('/search', async (req, res) => {
     first: 20
   };
 
-  const gqlQuery = `
+  const query = `
       query SearchProducts($query: String!, $first: Int!) {
         products(first: $first, query: $query) {
           edges {
@@ -47,7 +47,7 @@ app.post('/search', async (req, res) => {
         'X-Shopify-Storefront-Access-Token': process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       },
       body: JSON.stringify({
-        query: gqlQuery,
+        query: query,
         variables: variables
       }),
       agent
@@ -56,7 +56,6 @@ app.post('/search', async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    console.error("Error fetching products:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
